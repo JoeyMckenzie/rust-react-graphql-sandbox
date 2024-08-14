@@ -1,0 +1,21 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+axum = { version = "0.7", features = ["macros"] }
+tokio = { version = "1.39", features = ["full"] }
+sqlx = { version = "0.8", features = [
+    "postgres",
+    "runtime-tokio",
+    "tls-rustls",
+    "time",
+] }
+dotenvy = "0.15"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+async-graphql = { version = "7.0", features = ["time"] }
+time = { version = "0.3", features = ["serde"] }
+async-graphql-axum = "7.0"

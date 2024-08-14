@@ -1,0 +1,9 @@
+set shell := ["pwsh.exe", "-c"]
+
+default: dev
+
+dev:
+    cargo run
+
+watch:
+    cargo watch -x run
