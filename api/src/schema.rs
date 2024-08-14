@@ -1,7 +1,8 @@
 use async_graphql::{EmptySubscription, Schema, SimpleObject, ID};
+use sqlx::types::BigDecimal;
 use time::OffsetDateTime;
 
-use crate::{mutations::MutationHandler, queries::QueryRoot};
+use crate::{mutations::MutationRoot, queries::QueryRoot};
 
 #[derive(SimpleObject)]
 pub struct Brewery {
@@ -17,24 +18,24 @@ pub struct Brewery {
 
 #[derive(SimpleObject)]
 pub struct BeerStyle {
-    id: ID,
-    name: String,
-    description: Option<String>,
-    created_at: OffsetDateTime,
+    pub id: ID,
+    pub name: String,
+    pub description: Option<String>,
+    pub created_at: Option<OffsetDateTime>,
 }
 
 #[derive(SimpleObject)]
 pub struct Beer {
-    id: ID,
-    name: String,
-    brewery_id: ID,
-    style_id: ID,
-    abv: f64,
-    ibu: Option<i32>,
-    description: Option<String>,
-    is_seasonal: bool,
-    created_at: OffsetDateTime,
-    updated_at: OffsetDateTime,
+    pub id: ID,
+    pub name: String,
+    pub brewery_id: ID,
+    pub style_id: ID,
+    pub abv: BigDecimal,
+    pub ibu: Option<i32>,
+    pub description: Option<String>,
+    pub is_seasonal: Option<bool>,
+    pub created_at: Option<OffsetDateTime>,
+    pub updated_at: Option<OffsetDateTime>,
 }
 
 #[derive(SimpleObject)]
@@ -63,9 +64,9 @@ pub struct Review {
     created_at: OffsetDateTime,
 }
 
-pub type HopQuerySchema = Schema<QueryRoot, MutationHandler, EmptySubscription>;
+pub type HopQuerySchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
 // Create the schema
 pub fn create_schema() -> HopQuerySchema {
-    Schema::build(QueryRoot, MutationHandler, EmptySubscription).finish()
+    Schema::build(QueryRoot, MutationRoot, EmptySubscription).finish()
 }

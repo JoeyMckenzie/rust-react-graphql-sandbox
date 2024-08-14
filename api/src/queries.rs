@@ -52,18 +52,63 @@ impl QueryRoot {
     }
 
     async fn beer(&self, ctx: &Context<'_>, id: ID) -> anyhow::Result<Beer> {
-        // Implement beer fetching logic
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+        let id = id.0.parse::<i32>()?;
+
+        info!("searching for beer {id}");
+
+        let beer = sqlx::query_as!(
+            Beer,
+            r#"
+                SELECT *
+                FROM beers
+                WHERE id = $1
+            "#,
+            id
+        )
+        .fetch_one(&state.pool)
+        .await?;
+
+        Ok(beer)
     }
 
     async fn beers(&self, ctx: &Context<'_>) -> anyhow::Result<Vec<Beer>> {
-        // Implement beers fetching logic
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+
+        info!("retrieving all beers");
+
+        let beers = sqlx::query_as!(
+            Beer,
+            r#"
+                SELECT *
+                FROM beers
+            "#
+        )
+        .fetch_all(&state.pool)
+        .await?;
+
+        Ok(beers)
     }
 
     async fn beer_style(&self, ctx: &Context<'_>, id: ID) -> anyhow::Result<BeerStyle> {
-        // Implement beer style fetching logic
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+        let id = id.0.parse::<i32>()?;
+
+        info!("searching for beer style {id}");
+
+        let style = sqlx::query_as!(
+            BeerStyle,
+            r#"
+                SELECT *
+                FROM beer_styles
+                WHERE id = $1
+            "#,
+            id
+        )
+        .fetch_one(&state.pool)
+        .await?;
+
+        Ok(style)
     }
 
     async fn beer_styles(&self, ctx: &Context<'_>) -> anyhow::Result<Vec<BeerStyle>> {

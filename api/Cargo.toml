@@ -12,10 +12,11 @@ sqlx = { version = "0.8", features = [
     "runtime-tokio",
     "tls-rustls",
     "time",
+    "bigdecimal",
 ] }
 dotenvy = "0.15"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-async-graphql = { version = "7.0", features = ["time"] }
+async-graphql = { version = "7.0", features = ["time", "bigdecimal"] }
 time = { version = "0.3", features = ["serde"] }
 async-graphql-axum = "7.0"

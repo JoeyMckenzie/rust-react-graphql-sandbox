@@ -1,20 +1,41 @@
+use std::sync::Arc;
+
 use async_graphql::{Context, Object, ID};
 
 use crate::{
     inputs::{CreateBeerInput, CreateBreweryInput, CreateReviewInput},
     schema::{Beer, BeerIngredient, Brewery, Review},
+    state::AppState,
 };
 
-pub struct MutationHandler;
+pub struct MutationRoot;
 
 #[Object]
-impl MutationHandler {
+impl MutationRoot {
     async fn create_brewery(
         &self,
         ctx: &Context<'_>,
         input: CreateBreweryInput,
     ) -> anyhow::Result<Brewery> {
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+
+        let brewery = sqlx::query_as!(
+            Brewery,
+            r#"
+                INSERT INTO breweries (name, location, year_established, description, website)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING *;
+            "#,
+            input.name,
+            input.location,
+            input.year_established,
+            input.description,
+            input.website,
+        )
+        .fetch_one(&state.pool)
+        .await?;
+
+        Ok(brewery)
     }
 
     async fn create_beer(&self, ctx: &Context<'_>, input: CreateBeerInput) -> anyhow::Result<Beer> {

@@ -2,11 +2,11 @@ use async_graphql::{InputObject, ID};
 
 #[derive(InputObject)]
 pub struct CreateBreweryInput {
-    name: String,
-    location: String,
-    year_established: Option<i32>,
-    description: Option<String>,
-    website: Option<String>,
+    pub name: String,
+    pub location: String,
+    pub year_established: Option<i32>,
+    pub description: Option<String>,
+    pub website: Option<String>,
 }
 
 #[derive(InputObject)]
