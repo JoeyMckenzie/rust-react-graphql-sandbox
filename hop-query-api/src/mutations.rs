@@ -3,6 +3,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use async_graphql::{Context, Object};
 use bigdecimal::{BigDecimal, FromPrimitive};
+use tracing::info;
 
 use crate::{
     inputs::{CreateBeerInput, CreateBreweryInput},
@@ -21,6 +22,8 @@ impl MutationRoot {
     ) -> anyhow::Result<Brewery> {
         let state = ctx.data::<Arc<AppState>>().unwrap();
 
+        info!("creating brewery {}", input.name);
+
         let brewery = sqlx::query_as!(
             Brewery,
             r#"
@@ -37,11 +40,15 @@ impl MutationRoot {
         .fetch_one(&state.pool)
         .await?;
 
+        info!("brewery {} successfully created", brewery.id.0);
+
         Ok(brewery)
     }
 
     async fn create_beer(&self, ctx: &Context<'_>, input: CreateBeerInput) -> anyhow::Result<Beer> {
         let state = ctx.data::<Arc<AppState>>().unwrap();
+
+        info!("creating beer {}", input.name);
 
         match BigDecimal::from_f64(input.abv) {
             Some(abv) => {
@@ -62,6 +69,8 @@ impl MutationRoot {
                 )
                 .fetch_one(&state.pool)
                 .await?;
+
+                info!("beer {} successfully created", beer.id.0);
 
                 Ok(beer)
             }
