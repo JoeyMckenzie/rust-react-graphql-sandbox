@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                SELECT *\n                FROM beers\n                WHERE id = $1\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "brewery_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "style_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "abv",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "ibu",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "is_seasonal",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "0ede68eac584ed5a5229129d20c16203a48f14e7a66795af11520ec2decfee78"
+}

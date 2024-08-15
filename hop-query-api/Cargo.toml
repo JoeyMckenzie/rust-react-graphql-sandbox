@@ -1,5 +1,5 @@
 [package]
-name = "api"
+name = "hop-query-api"
 version = "0.1.0"
 edition = "2021"
 
@@ -20,3 +20,4 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 async-graphql = { version = "7.0", features = ["time", "bigdecimal"] }
 time = { version = "0.3", features = ["serde"] }
 async-graphql-axum = "7.0"
+tower-http = { version = "0.5", features = ["cors"] }

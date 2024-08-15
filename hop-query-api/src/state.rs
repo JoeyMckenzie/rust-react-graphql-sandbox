@@ -4,8 +4,6 @@ use anyhow::Context;
 use axum::extract::FromRef;
 use sqlx::PgPool;
 
-use crate::schema::{create_schema, HopQuerySchema};
-
 #[derive(FromRef, Clone)]
 pub struct AppState {
     pub pool: PgPool,

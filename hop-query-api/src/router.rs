@@ -3,6 +3,7 @@ use std::sync::Arc;
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::{extract::State, response::Html, routing::get, Extension, Router};
+use tower_http::cors::CorsLayer;
 
 use crate::{schema::HopQuerySchema, state::AppState};
 
@@ -11,6 +12,7 @@ pub fn build_hop_query_routes(state: AppState, schema: HopQuerySchema) -> Router
     Router::new()
         .route("/graphql", get(graphql_playground).post(graphql_handler))
         .layer(Extension(schema))
+        .layer(CorsLayer::permissive()) // TODO: In a realworld 
         .with_state(state)
 }
 
