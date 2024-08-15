@@ -1,0 +1,9 @@
+set shell := ["pwsh.exe", "-c"]
+
+default: dev
+
+build:
+    go build ./...
+
+dev:
+    air
