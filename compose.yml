@@ -1,17 +1,8 @@
-services:
-  hop_query_api:
-    build:
-      context: hop-query-api/
-    ports:
-      - "8081:8081"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    env_file:
-      - hop-query-api/.env
-    environment:
-      POSTGRES_HOST: postgres
+include:
+  - compose.api.yml
+  - compose.db.yml
 
+services:
   hop_query_ui:
     build:
       context: hop-query-ui/
@@ -21,18 +12,3 @@ services:
       - hop-query-ui/.env
     depends_on:
       - hop_query_api
-
-  postgres:
-    image: postgres:latest
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./hop-query-init:/docker-entrypoint-initdb.d
-    env_file:
-      - hop-query-api/.env
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d hop_query"]
-      interval: 10s
-      retries: 3
-      timeout: 5s
-      start_period: 5s

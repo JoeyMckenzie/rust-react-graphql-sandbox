@@ -1,0 +1,16 @@
+include:
+  - compose.db.yml
+
+services:
+  hop_query_api:
+    build:
+      context: hop-query-api/
+    ports:
+      - "8081:8081"
+    depends_on:
+      hop_query_db:
+        condition: service_healthy
+    env_file:
+      - hop-query-api/.env
+    environment:
+      POSTGRES_HOST: hop_query_db

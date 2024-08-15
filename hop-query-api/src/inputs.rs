@@ -11,13 +11,13 @@ pub struct CreateBreweryInput {
 
 #[derive(InputObject)]
 pub struct CreateBeerInput {
-    name: String,
-    brewery_id: ID,
-    style_id: ID,
-    abv: f64,
-    ibu: Option<i32>,
-    description: Option<String>,
-    is_seasonal: bool,
+    pub name: String,
+    pub brewery_id: ID,
+    pub style_id: ID,
+    pub abv: f64,
+    pub ibu: Option<i32>,
+    pub description: Option<String>,
+    pub is_seasonal: bool,
 }
 
 #[derive(InputObject)]

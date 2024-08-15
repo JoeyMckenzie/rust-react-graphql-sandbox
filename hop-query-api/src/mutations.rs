@@ -1,10 +1,12 @@
 use std::sync::Arc;
 
-use async_graphql::{Context, Object, ID};
+use anyhow::anyhow;
+use async_graphql::{Context, Object};
+use bigdecimal::{BigDecimal, FromPrimitive};
 
 use crate::{
-    inputs::{CreateBeerInput, CreateBreweryInput, CreateReviewInput},
-    schema::{Beer, BeerIngredient, Brewery, Review},
+    inputs::{CreateBeerInput, CreateBreweryInput},
+    schema::{Beer, Brewery},
     state::AppState,
 };
 
@@ -39,26 +41,31 @@ impl MutationRoot {
     }
 
     async fn create_beer(&self, ctx: &Context<'_>, input: CreateBeerInput) -> anyhow::Result<Beer> {
-        // Implement beer creation logic
-        todo!()
-    }
+        let state = ctx.data::<Arc<AppState>>().unwrap();
 
-    async fn create_review(
-        &self,
-        ctx: &Context<'_>,
-        input: CreateReviewInput,
-    ) -> anyhow::Result<Review> {
-        // Implement review creation logic
-        todo!()
-    }
+        match BigDecimal::from_f64(input.abv) {
+            Some(abv) => {
+                let beer = sqlx::query_as!(
+                    Beer,
+                    r#"
+                        INSERT INTO beers (name, brewery_id, style_id, abv, ibu, description, is_seasonal)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7)
+                        RETURNING *;
+                    "#,
+                    input.name,
+                    input.brewery_id.0.parse::<i32>()?,
+                    input.style_id.0.parse::<i32>()?,
+                    abv,
+                    input.ibu,
+                    input.description,
+                    input.is_seasonal,
+                )
+                .fetch_one(&state.pool)
+                .await?;
 
-    async fn add_ingredient_to_beer(
-        &self,
-        ctx: &Context<'_>,
-        beer_id: ID,
-        ingredient_id: ID,
-        amount: Option<String>,
-    ) -> anyhow::Result<BeerIngredient> {
-        todo!()
+                Ok(beer)
+            }
+            None => Err(anyhow!("abv is not valid")),
+        }
     }
 }

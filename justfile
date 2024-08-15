@@ -13,7 +13,7 @@ dev:
     @pwsh -Command "pause"
 
 dev-ui:
-    cd ui/ && pnpm run dev
+    cd hop-query-ui/ && pnpm run dev
 
 dev-api:
-    cd api/ && cargo run
+    cd hop-query-api/ && cargo watch -x run

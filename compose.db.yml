@@ -1,0 +1,15 @@
+services:
+  hop_query_db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./hop-query-init:/docker-entrypoint-initdb.d
+    env_file:
+      - hop-query-api/.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d hop_query"]
+      interval: 10s
+      retries: 3
+      timeout: 5s
+      start_period: 5s

@@ -40,11 +40,11 @@ pub struct Beer {
 
 #[derive(SimpleObject)]
 pub struct Ingredient {
-    id: ID,
-    name: String,
-    ingredient_type: String,
-    description: Option<String>,
-    created_at: OffsetDateTime,
+    pub id: ID,
+    pub name: String,
+    pub ingredient_type: String,
+    pub description: Option<String>,
+    pub created_at: Option<OffsetDateTime>,
 }
 
 #[derive(SimpleObject)]
@@ -56,12 +56,12 @@ pub struct BeerIngredient {
 
 #[derive(SimpleObject)]
 pub struct Review {
-    id: ID,
-    beer_id: ID,
-    user_name: String,
-    rating: i32,
-    comment: Option<String>,
-    created_at: OffsetDateTime,
+    pub id: ID,
+    pub beer_id: ID,
+    pub user_name: String,
+    pub rating: i32,
+    pub comment: Option<String>,
+    pub created_at: Option<OffsetDateTime>,
 }
 
 pub type HopQuerySchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;

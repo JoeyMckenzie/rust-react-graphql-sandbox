@@ -823,6 +823,7 @@ dependencies = [
  "async-graphql",
  "async-graphql-axum",
  "axum",
+ "bigdecimal",
  "dotenvy",
  "sqlx",
  "time",

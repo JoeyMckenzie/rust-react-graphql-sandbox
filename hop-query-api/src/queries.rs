@@ -112,18 +112,60 @@ impl QueryRoot {
     }
 
     async fn beer_styles(&self, ctx: &Context<'_>) -> anyhow::Result<Vec<BeerStyle>> {
-        // Implement beer styles fetching logic
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+
+        info!("retrieving beer styles");
+
+        let styles = sqlx::query_as!(
+            BeerStyle,
+            r#"
+                SELECT *
+                FROM beer_styles
+            "#
+        )
+        .fetch_all(&state.pool)
+        .await?;
+
+        Ok(styles)
     }
 
     async fn ingredient(&self, ctx: &Context<'_>, id: ID) -> anyhow::Result<Ingredient> {
-        // Implement ingredient fetching logic
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+        let id = id.0.parse::<i32>()?;
+
+        info!("seraching for ingredient {id}");
+
+        let ingredient = sqlx::query_as!(
+            Ingredient,
+            r#"
+                SELECT *
+                FROM ingredients
+                WHERE id = $1
+            "#,
+            id
+        )
+        .fetch_one(&state.pool)
+        .await?;
+
+        Ok(ingredient)
     }
 
     async fn ingredients(&self, ctx: &Context<'_>) -> anyhow::Result<Vec<Ingredient>> {
-        // Implement ingredients fetching logic
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+
+        info!("retrieving ingredients");
+
+        let ingredients = sqlx::query_as!(
+            Ingredient,
+            r#"
+                SELECT *
+                FROM ingredients
+            "#
+        )
+        .fetch_all(&state.pool)
+        .await?;
+
+        Ok(ingredients)
     }
 
     async fn reviews_for_beer(
@@ -131,6 +173,23 @@ impl QueryRoot {
         ctx: &Context<'_>,
         beer_id: ID,
     ) -> anyhow::Result<Vec<Review>> {
-        todo!()
+        let state = ctx.data::<Arc<AppState>>().unwrap();
+        let beer_id = beer_id.0.parse::<i32>()?;
+
+        info!("retrieving ingredients");
+
+        let reviews = sqlx::query_as!(
+            Review,
+            r#"
+                SELECT *
+                FROM reviews
+                where beer_id = $1
+            "#,
+            beer_id
+        )
+        .fetch_all(&state.pool)
+        .await?;
+
+        Ok(reviews)
     }
 }

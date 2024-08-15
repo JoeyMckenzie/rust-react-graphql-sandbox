@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS ingredients CASCADE;
 CREATE TABLE ingredients (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    type VARCHAR(20) NOT NULL, -- e.g., 'hop', 'malt', 'yeast', 'adjunct'
+    ingredient_type VARCHAR(20) NOT NULL, -- e.g., 'hop', 'malt', 'yeast', 'adjunct'
     description TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

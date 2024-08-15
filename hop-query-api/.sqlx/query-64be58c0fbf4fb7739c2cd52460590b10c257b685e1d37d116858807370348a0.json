@@ -1,0 +1,82 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                        INSERT INTO beers (name, brewery_id, style_id, abv, ibu, description, is_seasonal)\n                        VALUES ($1, $2, $3, $4, $5, $6, $7)\n                        RETURNING *;\n                    ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "brewery_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "style_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "abv",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "ibu",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "is_seasonal",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Int4",
+        "Int4",
+        "Numeric",
+        "Int4",
+        "Text",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "64be58c0fbf4fb7739c2cd52460590b10c257b685e1d37d116858807370348a0"
+}

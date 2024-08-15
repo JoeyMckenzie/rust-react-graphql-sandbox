@@ -21,3 +21,4 @@ async-graphql = { version = "7.0", features = ["time", "bigdecimal"] }
 time = { version = "0.3", features = ["serde"] }
 async-graphql-axum = "7.0"
 tower-http = { version = "0.5", features = ["cors"] }
+bigdecimal = "0.4.5"
